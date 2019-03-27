@@ -1,4 +1,5 @@
 #include "Buffer.h"
+#include "Generalidades.h"
 #include <semaphore.h>
 
 const int ON=1;
