@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <semaphore.h>
-#include "Generalidades.h"
+#include "Generalidades.c"
 #include "Buffer.h"
 
 const int ON=1;
