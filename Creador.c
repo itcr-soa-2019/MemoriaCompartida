@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "Creador.h"
-
+#include "Generalidades.h"
 
 
 
