@@ -3,7 +3,7 @@
 #include <string.h>
 
 
-void uso( int exitval, char* nombre, char* argumento, char* error)
+void indicaciones( int exitval, char* nombre, char* argumento, char* error)
 {
 	fprintf(stderr, "\n\
 		SISTEMAS OPERATIVOS AVANZADOS\n\
@@ -36,17 +36,17 @@ int Validar_Parametros(int argc, char **argv, char* nombre, char* argumento)
 {
 	int val=0;
 	if (argc < 3) {
-		uso(1, nombre, argumento, "Faltan Parámetros." ) ;
+		indicaciones(1, nombre, argumento, "Faltan Parámetros." ) ;
 	}
 	if (argc > 3){
-		uso(1, nombre, argumento, "Ha ingresado más parámetros." ) ;
+		indicaciones(1, nombre, argumento, "Ha ingresado más parámetros." ) ;
 	}
 	if (argc == 3)
 	{
 		val = atoi(argv[2]);
 		if (val <= 0)
 		{
-			uso(1, nombre, argumento, "El segundo parámetro debe ser numérico y mayor a 0." ) ;
+			indicaciones(1, nombre, argumento, "El segundo parámetro debe ser numérico y mayor a 0." ) ;
 		}
 	}
 	return val;

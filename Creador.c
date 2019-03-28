@@ -8,7 +8,6 @@
 #include <time.h>
 #include <semaphore.h>
 #include "Buffer.h"
-#include "Mensaje.h"
 #include "Creador.h"
 #include "Generalidades.c"
 
