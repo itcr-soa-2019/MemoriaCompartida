@@ -6,8 +6,12 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <time.h>
+#include <semaphore.h>
+#include "Buffer.h"
+#include "Mensaje.h"
 #include "Creador.h"
-#include "Generalidades.h"
+#include "Generalidades.c"
+
 
 
 
@@ -28,6 +32,15 @@ int  Crea_Buffer(const char *nombre_buffer, char *entrada_tamano){
 	if (smo == -1){
 		return ERROR;
 	} 
+	//buf->buffer_list[atoi(tamano)];
+	if (ftruncate(smo, (sizeof(struct buffer))+sizeof(struct list_mensajes)*tamano_buffer) == -1){
+		return ERROR;
+	}
+	buf = mmap(NULL, (sizeof(struct buffer)+sizeof(struct list_mensajes)*tamano_buffer),
+	       PROT_READ | PROT_WRITE, MAP_SHARED, smo, 0);
+	if (buf == MAP_FAILED){
+		return ERROR;
+	}
 	Inicia_Variables();
 	return 1;
 }
@@ -71,6 +84,7 @@ void Inicia_Variables(){
 
 void Finaliza_Creador(){
 	munmap(buf,tamano_buffer); //unmap pages of memory, remove any mappings
+	close(smo);
 	fprintf (stderr, "Creador finalizado\n");
 }
 

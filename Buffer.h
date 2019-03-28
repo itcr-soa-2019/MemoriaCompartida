@@ -1,5 +1,7 @@
 #include "Mensaje.h"
 #include <semaphore.h>
+#ifndef Buffer_h
+#define Buffer_h
 
 struct buffer {
     int tamano_buffer;
@@ -13,3 +15,5 @@ struct buffer {
     struct  list_mensajes buffer_list[1];
     sem_t sem1,sem2;   //semaphore operation
 };
+
+#endif
