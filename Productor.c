@@ -11,16 +11,41 @@
 
 int main(int argc, char **argv)
 {
-	// obtener parametros
-	// Inicia_MemoriaCompartida()
+	int parameters;
+	parameters=Validar_Parametros(argc, argv, "Nombre Productor","Segundos");
+    // falta validar si ya existe el buffer sino hay que crearlo!!!
+	if ( Inicia_MemoriaCompartida(argv[1],argv[2])==ERROR){
+		perror("Error en la memoria compartida");
+		exit(1);
+	}
 	
 }
 
 int Inicia_MemoriaCompartida (const char *nombre_buffer, char *segundos) {
-	
+	srand(time(NULL));
+	smo = shm_open(nombre_buffer, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
+	if (smo == -1){
+		return ERROR;
+	}
+	buf = mmap(NULL, (sizeof(struct buffer)),
+	       PROT_READ | PROT_WRITE, MAP_SHARED, smo, 0);
+	if (buf == MAP_FAILED){
+		return ERROR;
+	}
+	tamano_buffer=buf->tamano_buffer;
+	munmap(buf,sizeof(struct buffer));
+
+	//tamano_buffer=1;
+	buf = mmap(NULL, (sizeof(struct buffer)+sizeof(struct list_mensajes)*tamano_buffer),
+	       PROT_READ | PROT_WRITE, MAP_SHARED, smo, 0);
+	if (buf == MAP_FAILED){
+		return ERROR;
+	}
+	Inicializa_Productor(atof(segundos));
+	return 1;
 }
 
-void Inicializa_Productor(){
+void Inicializa_Productor(double segundos){
 	//fprintf (stderr, "Nuevo Productor Inicializado\n");
 	
 }

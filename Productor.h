@@ -1,23 +1,21 @@
+#include <fcntl.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
 #include <time.h>
 #include "Buffer.h"
-#include "Mensaje.h"
 
 
 
 const int ERROR=0;
 const int ON=1;
 struct buffer *buf;
-
-
 int total_mensajes;
 int tamano_buffer;
+int smo;
 
 int Inicia_MemoriaCompartida(const char *nombre_buffer, char *segundos);
 void Crea_Productor();
