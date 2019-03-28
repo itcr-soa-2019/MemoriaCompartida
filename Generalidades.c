@@ -6,27 +6,27 @@
 void indicaciones( int exitval, char* nombre, char* argumento, char* error)
 {
 	fprintf(stderr, "\n\
-		SISTEMAS OPERATIVOS AVANZADOS\n\
-		\n\
-		"
+** Indicaciones del uso: **\n\
+\n\
+"
 	);
 
 	if (strlen(argumento)>0){
-			fprintf(stderr, "\n\
-				Uso: %s Nombre_Buffer %s\n\
-				Error: %s \n\
-				\n\
-				"
-				,nombre, argumento, error);
+fprintf(stderr, "\n\
+Ingrese los parametros de la siguiente manera: %s Nombre_Buffer %s\n\
+Error: %s \n\
+\n\
+"
+,nombre, argumento, error);
 	}
 	else
 	{
-		fprintf(stderr, "\n\
-			Uso: %s Nombre_Buffer \n\
-			Error: %s \n\
-			\n\
-			"
-				,nombre, error);
+fprintf(stderr, "\n\
+Ingrese los parametros de la siguiente manera: %s Nombre_Buffer \n\
+Error: %s \n\
+\n\
+"
+,nombre, error);
 	}
 	exit(exitval);
 }
@@ -36,7 +36,7 @@ int Validar_Parametros(int argc, char **argv, char* nombre, char* argumento)
 {
 	int val=0;
 	if (argc < 3) {
-		indicaciones(1, nombre, argumento, "Faltan Parámetros." ) ;
+		indicaciones(1, nombre, argumento, "Faltan parámetros de entrada." ) ;
 	}
 	if (argc > 3){
 		indicaciones(1, nombre, argumento, "Ha ingresado más parámetros." ) ;
@@ -46,7 +46,7 @@ int Validar_Parametros(int argc, char **argv, char* nombre, char* argumento)
 		val = atoi(argv[2]);
 		if (val <= 0)
 		{
-			indicaciones(1, nombre, argumento, "El segundo parámetro debe ser numérico y mayor a 0." ) ;
+			indicaciones(1, nombre, argumento, "El tamano del buffer debe ser numérico y mayor a 0." ) ;
 		}
 	}
 	return val;
