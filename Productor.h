@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "Buffer.h"
+#include "Generalidades.h"
 
 
 
@@ -16,6 +17,8 @@ struct buffer *buf;
 int total_mensajes;
 int tamano_buffer;
 int smo;
+double total_tiempo_espera;
+double tiempo_bloqueo;
 
 int Inicia_MemoriaCompartida(const char *nombre_buffer, char *segundos);
 void Crea_Productor();

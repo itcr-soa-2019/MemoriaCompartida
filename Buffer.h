@@ -12,5 +12,5 @@ struct buffer {
     unsigned int consumidores_totales;
     int flag_exec;
     struct  list_mensajes buffer_list[1];
-    sem_t sem1,sem2;   //semaphore operation
+    sem_t sem0,sem1,sem2;   //semaphore operation
 };

@@ -35,7 +35,6 @@ int Inicia_MemoriaCompartida (const char *nombre_buffer, char *segundos) {
 	tamano_buffer=buf->tamano_buffer;
 	munmap(buf,sizeof(struct buffer));
 
-	//tamano_buffer=1;
 	buf = mmap(NULL, (sizeof(struct buffer)+sizeof(struct list_mensajes)*tamano_buffer),
 	       PROT_READ | PROT_WRITE, MAP_SHARED, smo, 0);
 	if (buf == MAP_FAILED){
@@ -46,27 +45,67 @@ int Inicia_MemoriaCompartida (const char *nombre_buffer, char *segundos) {
 }
 
 void Inicializa_Productor(double segundos){
-	//fprintf (stderr, "Nuevo Productor Inicializado\n");
+	int estado;
+	int exec =1;
+	float tiempo_espera;
+	int a;
+	double tiempo_consumido;
+	pid_t proceso_productor;
+	time_t inicio, final;
+
+	proceso_productor = getpid(); //returns the process ID (PID) of the calling process (used by routines that generate unique temporary filenames.)
+	Asigna_Productor(proceso_productor);
+	fprintf (stderr, "Nuevo productor iniciado %i \n",proceso_productor);
 	
+		while (exec){
+			tiempo_espera=Exponential(segundos);
+			fprintf(stderr,"Tiempo de espera: %f\n",tiempo_espera);
+			total_tiempo_espera=total_tiempo_espera+tiempo_espera;
+			sleep((int)tiempo_espera);
+			estado=buf->flag_exec;
+			if (estado == ON)
+			{
+				//semaforo de control para iniciar y finalizar el tiempo de bloqueo
+				time(&inicio); 
+				sem_wait(&(buf->sem1));
+				sem_wait(&(buf->sem0));
+				time(&final); 
+				sem_getvalue(&(buf->sem2),&a);
+				Crea_Mensaje(proceso_productor);
+				sem_post(&(buf->sem0));
+				sem_post(&(buf->sem2));
+				tiempo_consumido = difftime(final,inicio);
+				total_mensajes=total_mensajes+1;
+				tiempo_bloqueo=tiempo_bloqueo+tiempo_consumido;
+			}
+			else {
+				exec=0;
+			}
+	}
+	Finaliza_Productor(proceso_productor);
 }
 
-//Registra un nuevo productor en la memoria compartida
-void Asigna_Productor(){
+//Asigna nuevo productor en la memoria compartida
+void Asigna_Productor(int pid){
+	buf->contador_productores=buf->contador_productores+1;
+}
+
+//Crea un nuevo mensaje en el buffer
+void Crea_Mensaje(int pid){
 	
+	//Despliega_Mensaje();
 }
 
 
 //Libera memoria y despliega
-void Finaliza_Productor(){
+void Finaliza_Productor(int pid){
+	buf->contador_productores=buf->contador_productores-1;
+	munmap(buf,tamano_buffer);
+	close(smo);
+	Despligue_Total(pid);
 	
-	//Despligue_Total();
 }
 
-//Crea un nuevo mensaje en el buffer
-void Crea_Mensaje(){
-	
-	//Despliega_Mensaje();
-}
 
 
 void Despliega_Mensaje(){
@@ -78,7 +117,7 @@ void Despliega_Mensaje(){
 
 }
 
-void Despligue_Total(){
+void Despligue_Total(int pid){
      fprintf (stderr, "*****************************************\n");
      fprintf (stderr, "   Fin de Ejecución Productor    \n\n");
      fprintf (stderr, "*****************************************\n");
