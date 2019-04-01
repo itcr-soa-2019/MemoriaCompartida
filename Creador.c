@@ -72,9 +72,9 @@ void Inicia_Variables(){
        If pshared is nonzero, then the semaphore is shared between
        processes, and should be located in a region of shared memory
 	   returns 0 on success; on error, -1 is returned*/
-
-	sem_init(&buf->sem1, 1, 1);
-	sem_init (&buf->sem2, 1, tamano_buffer);
+	sem_init(&buf->sem0, 1, 1);
+	sem_init(&buf->sem1, 1, tamano_buffer);
+	sem_init (&buf->sem2, 1, 0);
 	
 
 	Finaliza_Creador();

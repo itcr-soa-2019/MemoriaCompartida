@@ -6,8 +6,10 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <time.h>
+#include <semaphore.h>
 #include "Buffer.h"
-#include "Generalidades.h"
+#include "DistExponencial.c"
+#include "Generalidades.c"
 
 
 
@@ -21,10 +23,15 @@ double total_tiempo_espera;
 double tiempo_bloqueo;
 
 int Inicia_MemoriaCompartida(const char *nombre_buffer, char *segundos);
-void Crea_Productor();
+void Asigna_Productor(int pid);
 void Inicializa_Productor();
-void Asigna_Productor();
-void Finaliza_Productor();
-void Crea_Mensaje();
-void Despligue_Total();
-void Despliega_Mensaje();
+void Finaliza_Productor(int pid);
+void Crea_Mensaje(int pid);
+void Despligue_Total(int proceso_productor);
+int Genera_Posicion(int posicion,int tamano_buffer);
+void Despliega_Mensaje(int proceso_productor, int llave, time_t fecha, int posicion, int cantidad_productores, int cantidad_consumidores);
+
+
+
+
+

@@ -1,11 +1,3 @@
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <time.h>
 #include "Productor.h"
 
 
@@ -58,7 +50,7 @@ void Inicializa_Productor(double segundos){
 	fprintf (stderr, "Nuevo productor iniciado %i \n",proceso_productor);
 	
 		while (exec){
-			tiempo_espera=Exponential(segundos);
+			tiempo_espera=DistExponencial_Espera(segundos);
 			fprintf(stderr,"Tiempo de espera: %f\n",tiempo_espera);
 			total_tiempo_espera=total_tiempo_espera+tiempo_espera;
 			sleep((int)tiempo_espera);
@@ -90,13 +82,6 @@ void Asigna_Productor(int pid){
 	buf->contador_productores=buf->contador_productores+1;
 }
 
-//Crea un nuevo mensaje en el buffer
-void Crea_Mensaje(int pid){
-	
-	//Despliega_Mensaje();
-}
-
-
 //Libera memoria y despliega
 void Finaliza_Productor(int pid){
 	buf->contador_productores=buf->contador_productores-1;
@@ -107,13 +92,48 @@ void Finaliza_Productor(int pid){
 }
 
 
+//Crea un nuevo mensaje en el buffer
+void Crea_Mensaje(int pid){
+	int cantidad_productores=buf->contador_productores;
+	int cantidad_consumidores=buf->contador_consumidores;
+	int posicion=buf->actual_escritura;
+	int llave = Genera_Llave_Aleatoria();
+	time_t current_time =time(NULL);
 
-void Despliega_Mensaje(){
-	
+	buf->buffer_list[posicion].pid=pid;
+	buf->buffer_list[posicion].fecha_creacion=current_time;
+	buf->buffer_list[posicion].llave=llave;
+	buf->buffer_list[posicion].flag_exec=ON;
+	buf->actual_escritura= Genera_Posicion(posicion, buf->tamano_buffer);
+	buf->mensajes_totales=buf->mensajes_totales+1;
+	Despliega_Mensaje(pid,llave,current_time,posicion,cantidad_productores,cantidad_consumidores);
+
+}
+
+int Genera_Posicion(int posicion,int tamano_buffer){
+	if (posicion < (tamano_buffer-1)){
+		return posicion+1;
+	}
+	else{
+		return 0;
+	}
+}
+
+
+void Despliega_Mensaje(int proceso_productor,int llave,time_t fecha,int posicion,int cantidad_productores,int cantidad_consumidores){
+	struct tm * fecha1;
+	fecha1 = localtime(&fecha);
+	char buffer[20];
+	strftime(buffer,sizeof(buffer),"%Y-%m-%d %H:%M:%S",fecha1);
+
+	fprintf (stderr, "*****************************************\n");
     fprintf (stderr, "\tNuevo Mensaje en el buffer \n");
-    fprintf (stderr,"\tIdentificacion del productor: \n");
-    fprintf (stderr, "\tFecha y Hora de creacion:\n");
-    fprintf (stderr, "\tLlave: \n");
+    fprintf (stderr,"\tIdentificacion del productor: %i\n",proceso_productor);
+    fprintf (stderr, "\tFecha y Hora de creacion: %s\n",buffer);
+    fprintf (stderr, "\tLlave: %i\n",llave);
+	fprintf (stderr, "\tCantidad de productores: %i\n",cantidad_productores);
+	fprintf (stderr, "\tCantidad de consumidores: %i\n",cantidad_consumidores);
+	fprintf (stderr, "*****************************************\n");
 
 }
 

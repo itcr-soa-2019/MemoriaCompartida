@@ -52,3 +52,8 @@ int Validar_Parametros(int argc, char **argv, char* nombre, char* argumento)
 	return val;
 }
 
+int Genera_Llave_Aleatoria(){
+	return rand()%5;
+}
+
+
