@@ -5,28 +5,11 @@
 
 void indicaciones( int exitval, char* nombre, char* argumento, char* error)
 {
-	fprintf(stderr, "\n\
-** Indicaciones del uso: **\n\
-\n\
-"
-	);
-
-	if (strlen(argumento)>0){
-fprintf(stderr, "\n\
-Ingrese los parametros de la siguiente manera: %s Nombre_Buffer %s\n\
-Error: %s \n\
-\n\
-"
-,nombre, argumento, error);
-	}
-	else
-	{
-fprintf(stderr, "\n\
-Ingrese los parametros de la siguiente manera: %s Nombre_Buffer \n\
-Error: %s \n\
-\n\
-"
-,nombre, error);
+	fprintf(stderr, "\n** Indicaciones del uso: **\n\n");
+	if (strlen(argumento)>0) {
+		fprintf(stderr, "\nIngrese los parametros de la siguiente manera: %s Nombre_Buffer %s\nError: %s \n\n" ,nombre, argumento, error);
+	} else {
+		fprintf(stderr, "\nIngrese los parametros de la siguiente manera: %s Nombre_Buffer \nError: %s \n\n", nombre, error);
 	}
 	exit(exitval);
 }

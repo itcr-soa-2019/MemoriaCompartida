@@ -14,3 +14,6 @@ inicializa las variables (semaforos y flags), valida los parametros recibidos en
 
 ./Productor <nombre_buffer> <segundos>
 
+**Finalizador: Se encarga de cancelar todo el sistema de procesos, enviando mensajes de finalización a cada consumidor vivo usando el buffer compartido, le indica a los productores que cesen actividades. Una vez que la cantidad de productores y consumidores llega a cero, el buffer compartido es liberado.
+
+./Finalizador <nombre_buffer> <tamano>
