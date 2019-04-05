@@ -12,16 +12,6 @@
 #include "Generalidades.c"
 
 
-
-const int ERROR=0;
-const int ON=1;
-struct buffer *buf;
-int total_mensajes;
-int tamano_buffer;
-int smo;
-double total_tiempo_espera;
-double tiempo_bloqueo;
-
 int Inicia_MemoriaCompartida(const char *nombre_buffer, char *segundos);
 void Asigna_Productor(int pid);
 void Inicializa_Productor();
