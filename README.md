@@ -14,3 +14,6 @@ inicializa las variables (semaforos y flags), valida los parametros recibidos en
 
 ./Productor <nombre_buffer> <segundos>
 
+**Consumidor: se vincula al  buffer del Creador,recibe como argumentos el nombre del buffer y un parámetro en segundos.	En tiempos de espera aleatorios consume los mesajes del buffer. Decrementa el contadores y muestra estadisticas.
+
+./Consumidor <nombre_buffer> <segundos>
