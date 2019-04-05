@@ -1,6 +1,6 @@
 HEADERS = Buffer.h Mensaje.h DistExponencial.h Generalidades.h
 
-all: Creador Productor $(HEADERS)
+all: Creador Productor Consumidor $(HEADERS)
 
 Creador: Creador.c $(HEADERS)
 	gcc -o Creador Creador.c -lrt -lpthread -lm
@@ -8,5 +8,8 @@ Creador: Creador.c $(HEADERS)
 Productor: Productor.c $(HEADERS)
 	gcc -o Productor Productor.c -lrt -lpthread -lm
 
+Consumidor: Consumidor.c $(HEADERS)
+	gcc -o Consumidor Consumidor.c -lrt -lpthread -lm
+
 Clean:
-	rm Creador Productor
+	rm Creador Productor Consumidor
