@@ -7,7 +7,7 @@
 
 int main(int argc, char **argv) {	
 	int parameters;
-	parameters = Validar_Parametros(argc, argv, "Finalizador","Tamaño_Buffer");
+	parameters = Validar_Parametros(argc, argv, "Finalizador", "Tamaño_Buffer");
     
     Cancela_procesos();
 }
@@ -34,13 +34,16 @@ void Cancela_procesos(){
         Imprime_Stats();    
     }
     
+    buf
 	
+    /*
     sem_close(sem_buff);
 	sem_close(sem_fill);
     sem_close(sem_empt);
     sem_unlink(buffer_sem_name);	
 	sem_unlink(fill_sem_name);	
 	sem_unlink(empty_sem_name);
+    */
 }
 
 void Imprime_Stats(){               

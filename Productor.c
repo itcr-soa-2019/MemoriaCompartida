@@ -1,4 +1,26 @@
 #include "Productor.h"
+/*#include <unistd.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <time.h>
+#include "Buffer.h"
+#include "DistExponencial.c"
+#include "Generalidades.c"
+#include <semaphore.h>*/
+
+const int ERROR=0;
+const int ON=1;
+struct buffer *buf;
+int smo;
+double tiempo_bloqueo;
+double tiempo_consumido;
+int total_mensajes;
+int tamano_buffer;
+double total_tiempo_espera;
 
 
 int main(int argc, char **argv)
@@ -37,15 +59,16 @@ int Inicia_MemoriaCompartida (const char *nombre_buffer, char *segundos) {
 }
 
 void Inicializa_Productor(double segundos){
+	pid_t proceso_productor;
+	float tiempo_espera;
+	time_t inicio, final;
+	double tiempo_consumido;
+	int a;
 	int estado;
 	int exec =1;
-	float tiempo_espera;
-	int a;
-	double tiempo_consumido;
-	pid_t proceso_productor;
-	time_t inicio, final;
-
 	proceso_productor = getpid(); //returns the process ID (PID) of the calling process (used by routines that generate unique temporary filenames.)
+	
+	
 	Asigna_Productor(proceso_productor);
 	fprintf (stderr, "Nuevo productor iniciado %i \n",proceso_productor);
 	
@@ -94,15 +117,16 @@ void Finaliza_Productor(int pid){
 
 //Crea un nuevo mensaje en el buffer
 void Crea_Mensaje(int pid){
+	int posicion=buf->actual_escritura;
 	int cantidad_productores=buf->contador_productores;
 	int cantidad_consumidores=buf->contador_consumidores;
-	int posicion=buf->actual_escritura;
+
 	int llave = Genera_Llave_Aleatoria();
 	time_t current_time =time(NULL);
 
-	buf->buffer_list[posicion].pid=pid;
 	buf->buffer_list[posicion].fecha_creacion=current_time;
 	buf->buffer_list[posicion].llave=llave;
+	buf->buffer_list[posicion].pid=pid;
 	buf->buffer_list[posicion].flag_exec=ON;
 	buf->actual_escritura= Genera_Posicion(posicion, buf->tamano_buffer);
 	buf->mensajes_totales=buf->mensajes_totales+1;
@@ -110,8 +134,8 @@ void Crea_Mensaje(int pid){
 
 }
 
-int Genera_Posicion(int posicion,int tamano_buffer){
-	if (posicion < (tamano_buffer-1)){
+int Genera_Posicion(int posicion,int tamano_max){
+	if (posicion < (tamano_max-1)){
 		return posicion+1;
 	}
 	else{
@@ -121,9 +145,10 @@ int Genera_Posicion(int posicion,int tamano_buffer){
 
 
 void Despliega_Mensaje(int proceso_productor,int llave,time_t fecha,int posicion,int cantidad_productores,int cantidad_consumidores){
+	char buffer[20];
 	struct tm * fecha1;
 	fecha1 = localtime(&fecha);
-	char buffer[20];
+
 	strftime(buffer,sizeof(buffer),"%Y-%m-%d %H:%M:%S",fecha1);
 
 	fprintf (stderr, "*****************************************\n");
@@ -133,11 +158,13 @@ void Despliega_Mensaje(int proceso_productor,int llave,time_t fecha,int posicion
     fprintf (stderr, "\tLlave: %i\n",llave);
 	fprintf (stderr, "\tCantidad de productores: %i\n",cantidad_productores);
 	fprintf (stderr, "\tCantidad de consumidores: %i\n",cantidad_consumidores);
+	 fprintf (stderr, "\tTotal acumulado de mensajes generados: %i\n",total_mensajes);
+    fprintf (stderr, "\tPosicion de ingreso en el buffer: %i\n",posicion);
 	fprintf (stderr, "*****************************************\n");
 
 }
 
-void Despligue_Total(int pid){
+void Despligue_Total(int proceso_productor){
      fprintf (stderr, "*****************************************\n");
      fprintf (stderr, "   Fin de Ejecución Productor    \n\n");
      fprintf (stderr, "*****************************************\n");

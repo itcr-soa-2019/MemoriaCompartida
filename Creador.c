@@ -1,17 +1,10 @@
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <time.h>
-#include <semaphore.h>
-#include "Buffer.h"
 #include "Creador.h"
-#include "Generalidades.c"
 
-
+const int ON=1;
+const int ERROR=0;
+int tamano_buffer;
+struct buffer *buf;
+int smo; // share memory object
 
 
 int main(int argc, char **argv) {
@@ -57,7 +50,7 @@ void Inicia_Variables(){
     buf -> flag_exec = ON;
 
 	//inicia 2 semaphores 
-	/*sem_init() initializes the unnamed semaphore at the address pointed
+	/*sem_init() explanation: initializes the unnamed semaphore at the address pointed
        to by sem.  The value argument specifies the initial value for the
        semaphore.
 
@@ -86,4 +79,6 @@ void Finaliza_Creador(){
 	close(smo);
 	fprintf (stderr, "Creador finalizado\n");
 }
+
+
 
