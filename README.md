@@ -17,3 +17,7 @@ inicializa las variables (semaforos y flags), valida los parametros recibidos en
 **Consumidor: se vincula al  buffer del Creador,recibe como argumentos el nombre del buffer y un parámetro en segundos.	En tiempos de espera aleatorios consume los mesajes del buffer. Decrementa el contadores y muestra estadisticas.
 
 ./Consumidor <nombre_buffer> <segundos>
+
+**Finalizador: cancela todo el sistema de procesos, enviando un mensaje de finalizacion a cada consumidor vivo. Ademas cuando la cantidad de productores y consumidores es cero, el buffer compartido es liberado y lista las estadisticas de su gestion.  
+
+./Finalizador <nombre_buffer>
