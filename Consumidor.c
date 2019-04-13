@@ -159,10 +159,10 @@ void Imprime_Stats(int proceso){
     else {
         fprintf (stderr, "Ejecutando programa finalizador\n");
     }
-                fprintf (stderr, "Identificador Consumidor: %i               \n",proceso);
+                fprintf (stderr, "Identificador Consumidor: %i  \n",proceso);
                 fprintf (stderr, "Total mensajes consumidos: %i\n",total_mensajes);
-                fprintf (stderr, "Acumulado de tiempos esperados: %f segundos\n",tiempo_total_espera);
-                fprintf (stderr, "Acumulado de tiempo de bloqueo: %f segundos\n",tiempo_total_bloqueo);    
+                fprintf (stderr, "Tiempo acumulado de espera: %f segundos\n",tiempo_total_espera);
+                fprintf (stderr, "Tiempo acumulado de bloqueo : %f segundos\n",tiempo_total_bloqueo);    
     fprintf (stderr, "*******/******************/**********************/**************\n");                        
 }
 
