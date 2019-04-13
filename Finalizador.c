@@ -1,15 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <Buffer.h>
 #include "Finalizador.h"
-
 
 int main(int argc, char **argv) {	
 	int parameters;
 	parameters = Validar_Parametros(argc, argv, "Finalizador", "Tamaño_Buffer");
     
-    Cancela_procesos();
+    //Cancela_procesos();
 }
 
 
@@ -34,7 +29,6 @@ void Cancela_procesos(){
         Imprime_Stats();    
     }
     
-    buf
 	
     /*
     sem_close(sem_buff);

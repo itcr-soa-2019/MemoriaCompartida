@@ -1,16 +1,4 @@
 #include "Productor.h"
-/*#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <time.h>
-#include "Buffer.h"
-#include "DistExponencial.c"
-#include "Generalidades.c"
-#include <semaphore.h>*/
 
 const int ERROR=0;
 const int ON=1;
