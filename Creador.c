@@ -3,6 +3,7 @@
 const int ON=1;
 const int ERROR=0;
 int tamano_buffer;
+char *nombre_buffer;
 struct buffer *buf;
 int smo; // share memory object
 
@@ -17,8 +18,9 @@ int main(int argc, char **argv) {
 }
 
 //Crea el espacio de memoria compartida para todos los procesos
-int  Crea_Buffer(const char *nombre_buffer, char *entrada_tamano){
+int Crea_Buffer(const char *nombre_buffer, char *entrada_tamano){
 	tamano_buffer = atoi(entrada_tamano);//convierte string a integer 
+	nombre_buffer = nombre_buffer;
 	// shared memory object,O_CREAT crea el objeto sino existe, O_RDWR read - write access al objeto, S_IRUSR | S_IWUSR read-write permission para el dueno del archivo
 	smo = shm_open(nombre_buffer, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR); 
 	if (smo == -1){
@@ -41,6 +43,7 @@ int  Crea_Buffer(const char *nombre_buffer, char *entrada_tamano){
 void Inicia_Variables(){
 	// buffer struct 
 	buf -> tamano_buffer = tamano_buffer;
+	buf -> nombre_buffer = nombre_buffer;
     buf -> contador_productores = 0;
     buf -> contador_consumidores = 0;
     buf -> actual_lectura = 0;
@@ -48,6 +51,8 @@ void Inicia_Variables(){
     buf -> mensajes_totales = 0;
     buf -> consumidores_totales = 0;
     buf -> flag_exec = ON;
+
+	Agregar_Buffer(buf);
 
 	//inicia 2 semaphores 
 	/*sem_init() explanation: initializes the unnamed semaphore at the address pointed
@@ -67,11 +72,9 @@ void Inicia_Variables(){
 	   returns 0 on success; on error, -1 is returned*/
 	sem_init(&buf->sem0, 1, 1);
 	sem_init(&buf->sem1, 1, tamano_buffer);
-	sem_init (&buf->sem2, 1, 0);
-	
+	sem_init(&buf->sem2, 1, 0);	
 
 	Finaliza_Creador();
-
 }
 
 void Finaliza_Creador(){
@@ -79,6 +82,3 @@ void Finaliza_Creador(){
 	close(smo);
 	fprintf (stderr, "Creador finalizado\n");
 }
-
-
-

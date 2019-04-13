@@ -16,12 +16,17 @@ int exec=1;
 // pid : process id
 
 int main(int argc, char **argv) {
-	int parameters;
-	parameters=Validar_Parametros(argc, argv, "Nombre buffer","segundos");
-    // falta validar si ya existe el buffer sino hay que crearlo!!!
-	if ( Inicia_MemoriaCompartida(argv[1],argv[2])==ERROR){
-		perror("Error en la memoria compartida");
-		exit(1);
+	Validar_Parametros(argc, argv, "Nombre buffer","segundos");
+	int existe = 1;//Existe_Buffer(argv[1]);
+	if (existe == 1) {
+		if (Inicia_MemoriaCompartida(argv[1],argv[2])==ERROR) {
+			perror("Error en la memoria compartida");
+			exit(1);
+		}
+	} else {
+		printf("\nNo existe el buffer %s\n", argv[1]);
+		//Crea_Buffer(argv[1], argv[2]);
+		printf("\nBuffer %s con tamanno %s creado\n", argv[1], argv[2]);
 	}
 }
 
