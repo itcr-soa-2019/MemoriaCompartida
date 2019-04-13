@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "Buffer.h"
-
+#include "Generalidades.c"
 
 const int OFF=0;
 const int ERROR=0;
