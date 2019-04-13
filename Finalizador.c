@@ -114,4 +114,3 @@ void Imprime_Stats(){
     fprintf (stderr, "Total de mensajes: %u\n",buf->mensajes_totales);
     fprintf (stderr, "/---------------------------------------------------------/\n");
 }
-
