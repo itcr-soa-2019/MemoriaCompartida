@@ -7,9 +7,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <semaphore.h>
-#include "Buffer.h"
+#include "Buffer.c"
 #include "Generalidades.c"
-
 
 
 int Crea_Buffer(const char *buffer_name, char *tamano);
