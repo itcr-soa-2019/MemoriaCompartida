@@ -6,7 +6,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <time.h>
-#include "Buffer.h"
+#include "Buffer.c"
 #include "DistExponencial.c"
 #include "Generalidades.c"
 //#include "Creador.h"

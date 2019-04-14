@@ -1,13 +1,9 @@
 #include "Buffer.h"
 
-int Agregar_Buffer(struct buffer *buffer) {
-    //TODO
-}
-
-void Borrar_Buffers(struct buffer *buffer){ 
-    //TODO
-}
-
 int Existe_Buffer(char *nombre_buffer){
-
+    int fd = open(nombre_buffer, O_RDWR, (mode_t)0600);
+	if (fd == -1) {
+		return 0;
+	}	
+    return 1;
 }

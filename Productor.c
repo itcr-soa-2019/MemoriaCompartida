@@ -13,20 +13,15 @@ double total_tiempo_espera;
 
 int main(int argc, char **argv)
 {
-	int parameters;
-	parameters=Validar_Parametros(argc, argv, "Nombre Productor","Segundos");    
-	
-	int existe = 1;//Existe_Buffer(argv[1]);
+	Validar_Parametros(argc, argv, "Nombre Productor","Segundos");	
+	int existe = Existe_Buffer(argv[1]);
 	if (existe == 1) {
-		/*if (Inicia_MemoriaCompartida(argv[1],argv[2])==ERROR) {
+		if (Inicia_MemoriaCompartida(argv[1],argv[2])==ERROR) {
 			perror("Error en la memoria compartida");
 			exit(1);
-		}*/
-		printf("\niniciando memoria compartida %s\n", argv[1]);
-	} else {
-		printf("\nNo existe el buffer %s\n", argv[1]);
-		//Crea_Buffer(argv[1], argv[2]);
-		//printf("\nBuffer %s con tamanno %s creado\n", argv[1], argv[2]);
+		}
+	} else {		
+		printf("\nEjecute el Creador para crear el buffer '%s'\n", argv[1]);	
 	}
 }
 
