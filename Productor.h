@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <semaphore.h>
-#include "Buffer.h"
+#include "Buffer.c"
 #include "DistExponencial.c"
 #include "Generalidades.c"
 
