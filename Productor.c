@@ -48,8 +48,6 @@ int Inicia_MemoriaCompartida (const char *nombre_buffer, char *segundos) {
 }
 
 void Inicializa_Productor(double segundos){
-	printf("\nENTRA AL INICIALIZADOR DE PRODUCTORES\n");
-
 	pid_t proceso_productor;
 	float tiempo_espera;
 	time_t inicio, final;
