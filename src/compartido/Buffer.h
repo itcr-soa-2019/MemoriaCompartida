@@ -20,5 +20,7 @@ typedef struct buffer_t
 } buffer_t;
 
 buffer_t* inicializarBuffer(buffer_t* buffer, char* nombre, size_t tamano, int maxMensajes);
+buffer_t* getBuffer(char* nombre);
+double escribirBuffer(buffer_t* buffer, mensaje_t mensaje, sem_t* semaforo);
 
 #endif

@@ -11,7 +11,7 @@ compile_creador: creador/Creador.c compartido/lib_compartida
 	$(CC) $(CFLAGS) -o Creador creador/Creador.c compartido/lib_compartida $(LIBS)
 
 compile_productor:
-	#$(CC) $(CFLAGS) -o Productor productor/Productor.c compartido/lib_compartida $(LIBS)
+	$(CC) $(CFLAGS) -o Productor productor/Productor.c compartido/lib_compartida $(LIBS)
 
 compile_consumidor:
 	#$(CC) $(CFLAGS) -o Consumidor consumidor/Consumidor.c compartido/lib_compartida $(LIBS)

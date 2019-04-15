@@ -5,11 +5,14 @@
 
 typedef struct mensaje_t
 {
-    time_t fechaCreacion;
+    time_t timestampCreacion;
     int llave;
     int pid;
-    int flagExec;
+    int leido;
 
 } mensaje_t;
+
+mensaje_t crearMensaje(int pid);
+void imprimirMensaje(mensaje_t mensaje);
 
 #endif
