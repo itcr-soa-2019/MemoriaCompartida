@@ -1,7 +1,3 @@
-#include <sys/mman.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "Buffer.h"
 
 buffer_t* inicializarBuffer(buffer_t* buffer, char* nombre, size_t tamano, int maxMensajes) {
@@ -12,12 +8,12 @@ buffer_t* inicializarBuffer(buffer_t* buffer, char* nombre, size_t tamano, int m
     buffer->contTotalMensajes = 0;
     buffer->contMensajesLeidos = 0;
     buffer->contProductores = 0;
-    buffer->contPonsumidores = 0;
+    buffer->contConsumidores = 0;
 
     // inicializar array de mensajes aqui
 	for(int i = 0; i < maxMensajes; i++){
-		 buffer->mensajes[i].leido = 1;
-}
+		buffer->mensajes[i].leido = 1;
+	}
 
     // sincronizar
     msync(buffer, buffer->tamano, MS_SYNC);

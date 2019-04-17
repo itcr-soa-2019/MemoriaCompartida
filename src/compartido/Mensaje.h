@@ -1,4 +1,6 @@
 #include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #ifndef Mensaje_h
 #define Mensaje_h

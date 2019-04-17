@@ -1,5 +1,11 @@
-#include "Mensaje.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include <semaphore.h>
+#include <sys/types.h>
+#include <sys/mman.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include "Mensaje.h"
 
 #ifndef Buffer_h
 #define Buffer_h
@@ -13,7 +19,7 @@ typedef struct buffer_t
    int contTotalMensajes;
    int contMensajesLeidos;
    int contProductores;
-   int contPonsumidores;
+   int contConsumidores;
    //int __frontIndex;
    //int __backIndex;
    mensaje_t mensajes[];

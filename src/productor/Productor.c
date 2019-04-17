@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "../compartido/Buffer.h"
-#include "../compartido/Mensaje.h"
-#include "../compartido/Semaforo.h"
+#include "Productor.h"
 
 /**
  * 
@@ -50,6 +46,7 @@ int main (int argc, char *argv[]) {
         contadorLocalMsjs++;
 
         // calcular siguiente espera
+        esperaExponencial = 0;
         esperaExponencial = -log((double)rand() / (double)((unsigned)RAND_MAX + 1)) * mediaSegundos;
         tiempoEsperaTotal += esperaExponencial;
         sem_post(semaforoLleno);

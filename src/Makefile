@@ -20,4 +20,4 @@ compile_finalizador:
 	#$(CC) $(CFLAGS) -o Finalizador finalizador/Finalizador.c compartido/lib_compartida $(LIBS)
 
 clean:
-	rm -rf **/*.o Creador #Productor Consumidor Finalizador
+	rm -rf **/*.o Creador Productor #Consumidor Finalizador
