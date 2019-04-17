@@ -5,7 +5,8 @@
  * Todavia ocupa arreglos
  * 
  * */
-int main (int argc, char *argv[]) {
+int main (int argc, char *argv[]) 
+{
     // leer y validar parámetros
     validarParamsProduct(argc);
     char* nombreBuffer = argv[1];
@@ -23,10 +24,11 @@ int main (int argc, char *argv[]) {
     sem_t *semaforoVacio = getSemaforo(nombreSemaforoVacio);
     sem_t *semaforoLleno = getSemaforo(nombreSemaforoLleno);
     
-    //int producerId = shared_buffer_increase_producer_count(buffer, buffer_sem);
+    // incrementar productores del buffer
+    int producerId = incrementarContProductores(buffer, semaforoOcupado);
 
     // producir mensajes
-    srand(time(NULL)); //srand((unsigned) time(&t));
+    srand(time(NULL)); //srand((unsigned) time(&t));    
     while(1){
         clock_t start = clock();
         clock_t diff;
@@ -54,11 +56,12 @@ int main (int argc, char *argv[]) {
         sleep(1);//sleep(esperaExponencial);
     }
 
-    // decrementar productores
+    // decrementar productores del buffer
+    decrementarContProductores(buffer, semaforoOcupado);
 
     // imprimir reporte
-
-    printf("Productor completado!!\n");
+    reporteProductor(producerId, contadorLocalMsjs, tiempoEsperaTotal, tiempoBloqueado);
+    
     return 0;
 }
 
@@ -67,4 +70,13 @@ void validarParamsProduct(int contArgs) {
         printf("Error en los parámetros: Ingrese el nombre del buffer y la media de espera en segundos.\n");
         exit(1);
     }
+}
+
+void reporteProductor(int producerId, int contadorLocalMsjs, double tiempoEsperaTotal, double tiempoBloqueado) {
+    printf("\n***********************\n");
+    printf("Resumen del Productor: %d\n", producerId);
+    printf("Mensajes Producidos: %d\n", contadorLocalMsjs);
+    printf("Tiempo Espera Total: %lf\n", tiempoEsperaTotal);
+    printf("Tiempo Bloqueado: %lf\n", tiempoBloqueado);
+    printf("Productor completado!!\n");
 }

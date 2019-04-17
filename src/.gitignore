@@ -1,1 +1,10 @@
 *.o
+
+#folder con ejecutable compartido
+compartido/lib_compartida
+
+#ejecutables de acuerdo al makefile
+Creador
+Productor
+Consumidor
+Finalizador

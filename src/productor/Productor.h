@@ -10,5 +10,6 @@
 #define Productor_h
 
 void validarParamsProduct(int contArgs);
+void reporteProductor(int producerId, int contadorLocalMsjs, double tiempoEsperaTotal, double tiempoBloqueado);
 
 #endif

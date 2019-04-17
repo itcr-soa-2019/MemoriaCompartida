@@ -69,3 +69,29 @@ double escribirBuffer(buffer_t* buffer, mensaje_t mensaje, sem_t* semaforo) {
     }
     return diff;
 }
+
+/**
+ * Incrementa el numero de productores activos en el buffer
+ * y devuelve el nuevo valor de contador para productores. 
+ */
+int incrementarContProductores(buffer_t* buffer, sem_t* semaforo){
+	int productores;
+	sem_wait(semaforo);
+	buffer->contProductores++;
+	productores = buffer->contProductores;
+	sem_post(semaforo);
+	return productores;
+}
+
+/**
+ * Decrementa el numero de productores activos en el buffer
+ * y devuelve el nuevo valor de contador para productores. 
+ */
+int decrementarContProductores(buffer_t* buffer, sem_t* semaforo){
+	int productores;
+	sem_wait(semaforo);
+	buffer->contProductores--;
+	productores = buffer->contProductores;
+	sem_post(semaforo);
+	return productores;
+}
