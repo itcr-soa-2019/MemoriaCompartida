@@ -25,7 +25,7 @@ int main (int argc, char *argv[])
     sem_t *semaforoLleno = getSemaforo(nombreSemaforoLleno);
     
     // incrementar productores del buffer
-    int producerId = incrementarContProductores(buffer, semaforoOcupado);
+    int producerId = incrementarProductores(buffer, semaforoOcupado);
 
     // producir mensajes
     srand(time(NULL)); //srand((unsigned) time(&t));    
@@ -41,7 +41,7 @@ int main (int argc, char *argv[])
         if(!buffer->activo){
             break;
         }
-        mensaje_t mensaje = crearMensaje(1);
+        mensaje_t mensaje = crearMensaje(producerId);
 
         // escribir mensaje
         tiempoBloqueado += escribirBuffer(buffer, mensaje, semaforoOcupado);
@@ -57,7 +57,7 @@ int main (int argc, char *argv[])
     }
 
     // decrementar productores del buffer
-    decrementarContProductores(buffer, semaforoOcupado);
+    decrementarProductores(buffer, semaforoOcupado);
 
     // imprimir reporte
     reporteProductor(producerId, contadorLocalMsjs, tiempoEsperaTotal, tiempoBloqueado);

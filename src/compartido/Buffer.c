@@ -47,13 +47,13 @@ buffer_t* getBuffer(char* nombre) {
 double escribirBuffer(buffer_t* buffer, mensaje_t mensaje, sem_t* semaforo) {
     clock_t inicio = clock(); 
     clock_t diff;
-	sem_wait(semaforo);
-	diff = clock() - inicio;
-	msync(buffer, buffer->tamano, MS_SYNC);
-	int index;
-	int successfulMessage = 0;
 	
-	index = buffer->contTotalMensajes % buffer->maxMensajes;
+	sem_wait(semaforo);	
+	msync(buffer, buffer->tamano, MS_SYNC);
+
+	diff = clock() - inicio;
+	int successfulMessage = 0;
+	int index=buffer->contTotalMensajes % buffer->maxMensajes;	
 	
 	if(buffer->mensajes[index].leido == 1){
 		buffer->mensajes[index] = mensaje;
@@ -61,20 +61,47 @@ double escribirBuffer(buffer_t* buffer, mensaje_t mensaje, sem_t* semaforo) {
 		successfulMessage = 1;
 	}
 	
-	msync(buffer, buffer->tamano, MS_SYNC);
-	
+	msync(buffer, buffer->tamano, MS_SYNC);	
 	sem_post(semaforo);
+	
 	if(successfulMessage) {
         imprimirMensaje(mensaje);
     }
     return diff;
 }
 
+mensaje_t getMensaje(buffer_t* buffer, sem_t* semaforo){
+	mensaje_t mensaje;
+	clock_t inicio = clock(), diferencia;
+	
+    sem_wait(semaforo); //lock RC
+	msync(buffer, buffer->tamano, MS_SYNC); //sync
+
+	diferencia = clock() - inicio;
+	mensaje.llave = -1;
+	mensaje.tiempoBloqueado = diferencia;	
+	int indexRead = buffer->contMensajesLeidos % buffer->maxMensajes;	
+	if(buffer->contMensajesLeidos < buffer->contTotalMensajes){
+		mensaje = buffer->mensajes[indexRead];
+		mensaje.tiempoBloqueado = diferencia;
+		buffer->mensajes[indexRead].leido = 1;
+		buffer->contMensajesLeidos++;
+	}
+
+	msync(buffer, buffer->tamano, MS_SYNC); //sync
+    sem_post(semaforo); //unlock RC
+	
+    if(mensaje.llave != -1) {
+		imprimirMensaje(mensaje);	
+	}
+    return mensaje;
+}
+
 /**
  * Incrementa el numero de productores activos en el buffer
  * y devuelve el nuevo valor de contador para productores. 
  */
-int incrementarContProductores(buffer_t* buffer, sem_t* semaforo){
+int incrementarProductores(buffer_t* buffer, sem_t* semaforo){
 	int productores;
 	sem_wait(semaforo);
 	buffer->contProductores++;
@@ -87,11 +114,37 @@ int incrementarContProductores(buffer_t* buffer, sem_t* semaforo){
  * Decrementa el numero de productores activos en el buffer
  * y devuelve el nuevo valor de contador para productores. 
  */
-int decrementarContProductores(buffer_t* buffer, sem_t* semaforo){
+int decrementarProductores(buffer_t* buffer, sem_t* semaforo){
 	int productores;
 	sem_wait(semaforo);
 	buffer->contProductores--;
 	productores = buffer->contProductores;
 	sem_post(semaforo);
 	return productores;
+}
+
+/**
+ * Incrementa el numero de consumidores activos en el buffer
+ * y devuelve el nuevo valor de contador para consumidores. 
+ */
+int incrementarConsumidores(buffer_t* buffer, sem_t* semaforo){
+	int consumidores;
+	sem_wait(semaforo);
+	buffer->contConsumidores++;
+	consumidores = buffer->contConsumidores;
+	sem_post(semaforo);
+	return consumidores;
+}
+
+/**
+ * Decrementa el numero de consumidores activos en el buffer
+ * y devuelve el nuevo valor de contador para consumidores. 
+ */
+int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo){
+	int consumidores;
+	sem_wait(semaforo);
+	buffer->contConsumidores--;
+	consumidores = buffer->contConsumidores;
+	sem_post(semaforo);
+	return consumidores;
 }

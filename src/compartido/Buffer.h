@@ -28,7 +28,10 @@ typedef struct buffer_t
 buffer_t* inicializarBuffer(buffer_t* buffer, char* nombre, size_t tamano, int maxMensajes);
 buffer_t* getBuffer(char* nombre);
 double escribirBuffer(buffer_t* buffer, mensaje_t mensaje, sem_t* semaforo);
-int incrementarContProductores(buffer_t* buffer, sem_t* semaforo);
-int decrementarContProductores(buffer_t* buffer, sem_t* semaforo);
+mensaje_t getMensaje(buffer_t* buffer, sem_t* semaforo);
+int incrementarProductores(buffer_t* buffer, sem_t* semaforo);
+int decrementarProductores(buffer_t* buffer, sem_t* semaforo);
+int incrementarConsumidores(buffer_t* buffer, sem_t* semaforo);
+int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo);
 
 #endif

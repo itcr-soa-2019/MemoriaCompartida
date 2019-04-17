@@ -14,10 +14,10 @@ compile_productor:
 	$(CC) $(CFLAGS) -o Productor productor/Productor.c compartido/lib_compartida $(LIBS)
 
 compile_consumidor:
-	#$(CC) $(CFLAGS) -o Consumidor consumidor/Consumidor.c compartido/lib_compartida $(LIBS)
+	$(CC) $(CFLAGS) -o Consumidor consumidor/Consumidor.c compartido/lib_compartida $(LIBS)
 
 compile_finalizador:
-	#$(CC) $(CFLAGS) -o Finalizador finalizador/Finalizador.c compartido/lib_compartida $(LIBS)
+	$(CC) $(CFLAGS) -o Finalizador finalizador/Finalizador.c compartido/lib_compartida $(LIBS)
 
 clean:
-	rm -rf **/*.o Creador Productor #Consumidor Finalizador
+	rm -rf **/*.o Creador Productor Consumidor Finalizador
