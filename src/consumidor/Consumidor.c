@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Consumidor.h"
 
 int main (int argc, char *argv[]) 
@@ -10,7 +11,7 @@ int main (int argc, char *argv[])
     int mensajesConsumidos = 0;
     double tiempoEsperaTotal = 0;
     double tiempoBloqueado = 0;
-    double esperaExponencial = 0;
+    double tiempoEspera = 0;
         
     // obtener buffer compartido y semaforos
     buffer_t* buffer = getBuffer(nombreBuffer);
@@ -44,13 +45,12 @@ int main (int argc, char *argv[])
         }
 
         tiempoBloqueado += mensaje.tiempoBloqueado;
-        esperaExponencial = 0;
-        esperaExponencial = -log((double)rand()/(double)((unsigned)RAND_MAX + 1)) * mediaSegundos;
-        tiempoEsperaTotal += esperaExponencial;
+        tiempoEspera = getTiempoEspera(mediaSegundos);
+        tiempoEsperaTotal += tiempoEspera;
         
         sem_post(semaforoVacio); // unlock
-        printf("Esperando %lf segundos...\n", esperaExponencial);
-        sleep(esperaExponencial);
+        printf("Esperando %lf segundos...\n", tiempoEspera);
+        sleep((int)round(tiempoEspera));
     }
 
     // decrementar consumidores del buffer

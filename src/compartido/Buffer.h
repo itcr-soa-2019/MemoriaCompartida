@@ -33,5 +33,6 @@ int incrementarProductores(buffer_t* buffer, sem_t* semaforo);
 int decrementarProductores(buffer_t* buffer, sem_t* semaforo);
 int incrementarConsumidores(buffer_t* buffer, sem_t* semaforo);
 int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo);
+double getTiempoEspera (int segundos);
 
 #endif

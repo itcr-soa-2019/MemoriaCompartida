@@ -1,3 +1,4 @@
+#include <math.h>
 #include "Productor.h"
 
 /**
@@ -12,9 +13,9 @@ int main (int argc, char *argv[])
     char* nombreBuffer = argv[1];
     int mediaSegundos = strtod(argv[2], NULL);
     int contadorLocalMsjs = 0;
-    double tiempoEsperaTotal = 0;
-    double tiempoBloqueado = 0;
-    double esperaExponencial = 0;
+    double tiempoBloqueado = 0; // tiempo que estuvo bloqueado por semáforos
+    double tiempoEsperaTotal = 0; // tiempo total de espera durante la ejecución de este productor
+    double tiempoEspera = 0; // espera entre un mensaje y otro
 
     // obtener buffer compartido
     buffer_t* buffer = getBuffer(nombreBuffer);
@@ -48,12 +49,11 @@ int main (int argc, char *argv[])
         contadorLocalMsjs++;
 
         // calcular siguiente espera
-        esperaExponencial = 0;
-        esperaExponencial = -log((double)rand() / (double)((unsigned)RAND_MAX + 1)) * mediaSegundos;
-        tiempoEsperaTotal += esperaExponencial;
+        tiempoEspera = getTiempoEspera(mediaSegundos);
+        tiempoEsperaTotal += tiempoEspera;
         sem_post(semaforoLleno);
-        printf("Esperando %lf segundos...\n", esperaExponencial);
-        sleep(1);//sleep(esperaExponencial);
+        printf("Esperando %lf segundos...\n", tiempoEspera);
+        sleep((int)round(tiempoEspera));
     }
 
     // decrementar productores del buffer

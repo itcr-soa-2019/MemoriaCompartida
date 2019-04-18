@@ -1,5 +1,8 @@
 #include "Buffer.h"
 
+/**
+ * Inicializa estructura del buffer compartido.
+ */
 buffer_t* inicializarBuffer(buffer_t* buffer, char* nombre, size_t tamano, int maxMensajes) {
     buffer->nombre = nombre;
     buffer->tamano = tamano;
@@ -19,17 +22,20 @@ buffer_t* inicializarBuffer(buffer_t* buffer, char* nombre, size_t tamano, int m
     msync(buffer, buffer->tamano, MS_SYNC);
 }
 
+/**
+ * Devuelve la región compartida.
+ */
 buffer_t* getBuffer(char* nombre) {
     int descriptorArchivo = open(nombre, O_RDWR, (mode_t)0600);
 	if (descriptorArchivo == -1) {
-		printf("1Error obteniendo buffer compartido\n");
+		printf("Error obteniendo buffer compartido\n");
         exit(1);
 	}
 	
 	off_t offset = lseek(descriptorArchivo, (size_t)0, SEEK_END);
 	if (offset == -1) {
 		close(descriptorArchivo);
-		printf("2Error obteniendo buffer compartido\n");
+		printf("Error obteniendo buffer compartido\n");
         exit(1);
 	}
 	
@@ -38,12 +44,14 @@ buffer_t* getBuffer(char* nombre) {
     MAP_SHARED, descriptorArchivo, 0);
 	if (buffer == MAP_FAILED) {
 		close(descriptorArchivo);
-		printf("3Error obteniendo buffer compartido\n");
+		printf("Error obteniendo buffer compartido\n");
         exit(1);
 	}
     return buffer;
 }
-
+/**
+ * Escribe un mensaje en el buffer.
+ */
 double escribirBuffer(buffer_t* buffer, mensaje_t mensaje, sem_t* semaforo) {
     clock_t inicio = clock(); 
     clock_t diff;
@@ -70,6 +78,9 @@ double escribirBuffer(buffer_t* buffer, mensaje_t mensaje, sem_t* semaforo) {
     return diff;
 }
 
+/**
+ * Lee un mensaje del buffer.
+ */
 mensaje_t getMensaje(buffer_t* buffer, sem_t* semaforo){
 	mensaje_t mensaje;
 	clock_t inicio = clock(), diferencia;
@@ -147,4 +158,16 @@ int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo){
 	consumidores = buffer->contConsumidores;
 	sem_post(semaforo);
 	return consumidores;
+}
+
+/**
+ * Devuelve el tiempo de espera en segundos según una
+ * distribución exponencial.
+ */
+double getTiempoEspera (int segundos) {
+    int val = rand();
+    while (val == RAND_MAX)
+        val = rand();
+    double decimal = (double) val / RAND_MAX;
+    return log (1 - decimal) * (-segundos);
 }
