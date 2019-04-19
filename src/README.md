@@ -1,7 +1,10 @@
 # Memoria Compartida
 Instituto Tecnológico de Costa Rica
+
 Sistemas Operativos Avanzados, 2019
+
 Proyecto 2: "Memoria Compartida"
+
 Objetivo: Experimentar  con  el  uso de  memoria  compartida  entre  procesos heavyweight. 
 
 ## Compilar programa
