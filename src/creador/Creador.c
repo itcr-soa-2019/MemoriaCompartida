@@ -15,7 +15,7 @@ int main (int argc, char *argv[]) {
 
     // crear semáforos
     sem_t* semaforoOcupado = crearSemaforo(nombreSemaforoOcupado, 1);
-    sem_t* semaforoVacio = crearSemaforo(nombreSemaforoVacio, maxMensajes - 1);
+    sem_t* semaforoVacio = crearSemaforo(nombreSemaforoVacio, maxMensajes);
     sem_t* semaforoLleno = crearSemaforo(nombreSemaforoLleno, 0);
 
     // crear región compartida

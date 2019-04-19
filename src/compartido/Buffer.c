@@ -165,8 +165,11 @@ int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo){
  * cancelacion de productores y consumidores
  */
 void desactivarBuffer(buffer_t* buffer){
+	printf("\nListo0\n");
 	buffer->activo = 0;
-	msync(buffer, buffer->tamano, MS_SYNC);
+	printf("\nListo1\n");
+	//msync(buffer, buffer->tamano, MS_SYNC);
+	//printf("\nListo2\n");
 }
 
 /**

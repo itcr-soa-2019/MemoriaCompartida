@@ -17,7 +17,7 @@ int main (int argc, char *argv[])
     __off_t offset = lseek(archivo, (size_t) 0, SEEK_END);
 	if (offset == -1) {
 		return (size_t) offset;
-	}	
+	}
 	size_t map_size = (size_t) (offset + 1);
 	if (map_size == -1) {
 		close(archivo);
@@ -30,12 +30,13 @@ int main (int argc, char *argv[])
     sem_t *semaforoVacio = getSemaforo(nombreSemaforoVacio);
     sem_t *semaforoLleno = getSemaforo(nombreSemaforoLleno);
     
-	sem_wait(semaforoOcupado); // lock del semaforo    
-    desactivarBuffer(buffer);
-    cancelarProductores(buffer, semaforoOcupado, semaforoLleno, semaforoVacio, 5);
+	sem_wait(semaforoOcupado); // lock del semaforo
+
+    desactivarBufferCompartido(buffer);
+    //cancelarProductores(buffer, semaforoOcupado, semaforoLleno, semaforoVacio, buffer->tamano);
     //cancelarConsumidores(buffer, semaforoOcupado);
     reporteFinalizador(buffer);    
-    eliminarBuffer(buffer,semaforoOcupado,semaforoLleno,semaforoVacio,archivo,map_size);
+    //eliminarBuffer(buffer,semaforoOcupado,semaforoLleno,semaforoVacio,archivo,map_size);
 
     return 0;
 }
@@ -47,13 +48,21 @@ void validarParamsFinalizador(int contArgs) {
     }
 }
 
+void desactivarBufferCompartido(buffer_t* buffer){
+	printf("\nDesactivando el buffer '%s'...\n", "XXX");
+    desactivarBuffer(buffer);
+    sleep(2);
+	printf("\nBuffer '%s' desactivado...\n", "XXX");
+}
+
 void cancelarProductores(buffer_t* buffer, sem_t* semaforoOcupado, sem_t* semaforoLleno, sem_t* semaforoVacio, int tamano){
     printf("Cancelando los productores...\n");
-    for(int i=0; i<tamano; i++)
+    int i;
+    for(i=0; i<tamano; i++)
     {
 		sem_post(semaforoLleno);
 		sem_post(semaforoVacio);
-	}    
+	}
 	do {
 		sem_post(semaforoOcupado);
 		sleep(2);
@@ -68,7 +77,7 @@ void cancelarConsumidores(buffer_t *buffer, sem_t *semaforoOcupado){
 	for (; consumidor > 0; consumidor--) {
 		printf("Deteniendo el consumidor %d...\n", consumidor);
 		//shared_buffer_put_stop(buffer, consumidor);
-	}	
+	}
 	do {
 		sem_post(semaforoOcupado);
 		sleep(2);
@@ -96,6 +105,6 @@ void reporteFinalizador(buffer_t *buffer) {
     printf("\n***********************\n");
     printf("Cancelando el Sistema de Procesos...\n\n");
     printf("Mensajes Producidos: %d\n", buffer->contTotalMensajes);
-    //printf("Mensajes Consumidos: %d\n", buffer->contMensajesLeidos);
+    printf("Mensajes Consumidos: %d\n", buffer->contMensajesLeidos);
     printf("Finalizador completado!!\n");
 }

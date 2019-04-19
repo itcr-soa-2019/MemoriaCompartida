@@ -11,7 +11,7 @@ mensaje_t crearMensaje(int pid) {
 }
 
 void imprimirMensaje(mensaje_t mensaje) {
-    printf("----------- MENSAJE ----------\n");
+    printf("\n----------- MENSAJE ----------\n");
     printf("Llave: %d\n", mensaje.llave);
     printf("Proceso: %d\n", mensaje.pid);
     printf("Timestamp: %s\n\n", ctime (&mensaje.timestampCreacion));
