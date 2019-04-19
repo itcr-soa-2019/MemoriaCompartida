@@ -29,9 +29,12 @@ int main (int argc, char *argv[])
         clock_t diff;
 
         sem_wait(semaforoLleno); //lock
-
         diff = clock() - inicio;        
         tiempoBloqueado += diff;
+
+        if(!buffer->activo){
+            break;
+        }
 
         mensaje_t mensaje = getMensaje(buffer, semaforoOcupado);
         if (mensaje.llave != -1) {
@@ -41,8 +44,9 @@ int main (int argc, char *argv[])
             printf("Se cumple condición de finalización\n");
             sem_post(semaforoVacio); // unlock
             break;
-        }        
+        }
 
+        // calcular siguiente espera
         tiempoBloqueado += mensaje.tiempoBloqueado;
         tiempoEspera = getTiempoEspera(mediaSegundos);
         tiempoEsperaTotal += tiempoEspera;

@@ -76,7 +76,8 @@ double escribirBuffer(buffer_t* buffer, mensaje_t mensaje, sem_t* semaforo) {
 	
 	if(buffer->mensajes[index].leido == 1){
 		buffer->mensajes[index] = mensaje;
-		buffer->contTotalMensajes++;
+		mensaje.tiempoBloqueado = diff;
+		buffer->contTotalMensajes++;		
 		successfulMessage = 1;
 	}
 	
@@ -194,7 +195,7 @@ void desactivarBuffer(buffer_t* buffer, char* nombre){
 	buffer->activo = 0;
 	msync(buffer, buffer->tamano, MS_SYNC);
     sleep(1);
-	printf("Buffer '%s' desactivado\n\n", nombre);
+	printf("Buffer '%s' desactivado\n", nombre);
 }
 
 /**

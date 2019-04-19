@@ -44,6 +44,7 @@ int main (int argc, char *argv[])
         // calcular siguiente espera
         tiempoEspera = getTiempoEspera(mediaSegundos);
         tiempoEsperaTotal += tiempoEspera;
+        
         sem_post(semaforoLleno);
         printf("Esperando %lf segundos...\n", tiempoEspera);
         sleep((int)round(tiempoEspera));
