@@ -27,16 +27,15 @@ int main (int argc, char *argv[])
     {
         clock_t inicio = clock();
         clock_t diff;
-        
-        printf("Pegado en el semaforo\n");
+
         sem_wait(semaforoLleno); //lock
 
         diff = clock() - inicio;        
-        printf("Consumidor trabajando...\n");
         tiempoBloqueado += diff;
 
         mensaje_t mensaje = getMensaje(buffer, semaforoOcupado);
         if (idConsumidor % 5 == mensaje.llave) {
+            printf("Se cumple condición de finalización\n");
             sem_post(semaforoVacio); // unlock
             break;
         }        
@@ -71,9 +70,9 @@ void validarParamsConsumidor(int contArgs) {
 
 void reporteConsumidor(int idConsumidor, int mensajesConsumidos, double tiempoEsperaTotal, double tiempoBloqueado) {
     printf("\n***********************\n");
-    printf("Resumen del Consumidor: %d\n", idConsumidor);
+    printf("Resumen del Consumidor #%d\n", idConsumidor);
     printf("Mensajes Consumidors: %d\n", mensajesConsumidos);
     printf("Tiempo Espera Total: %lf\n", tiempoEsperaTotal);
-    printf("Tiempo Bloqueado: %lf\n", tiempoBloqueado);
+    printf("Tiempo Bloqueado: %lf\n", tiempoBloqueado/CLOCKS_PER_SEC);
     printf("Consumidor completado!!\n");
 }

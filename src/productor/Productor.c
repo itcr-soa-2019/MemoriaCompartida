@@ -28,14 +28,13 @@ int main (int argc, char *argv[])
     int producerId = incrementarProductores(buffer, semaforoOcupado);
 
     // producir mensajes
-    srand(time(NULL)); //srand((unsigned) time(&t));    
+    srand(time(NULL));
     while(1){
-        clock_t start = clock();
+        clock_t start = clock();        
         clock_t diff;
-        printf("Pegado en el semaforo\n");
+
         sem_wait(semaforoVacio);
         diff = clock() - start;
-        printf("Productor trabajandoo...\n");
         tiempoBloqueado += diff;
 
         if(!buffer->activo){
@@ -73,9 +72,9 @@ void validarParamsProduct(int contArgs) {
 
 void reporteProductor(int producerId, int contadorLocalMsjs, double tiempoEsperaTotal, double tiempoBloqueado) {
     printf("\n***********************\n");
-    printf("Resumen del Productor: %d\n", producerId);
+    printf("Resumen del Productor #%d\n", producerId);
     printf("Mensajes Producidos: %d\n", contadorLocalMsjs);
     printf("Tiempo Espera Total: %lf\n", tiempoEsperaTotal);
-    printf("Tiempo Bloqueado: %lf\n", tiempoBloqueado);
+    printf("Tiempo Bloqueado: %lf\n", tiempoBloqueado/CLOCKS_PER_SEC);
     printf("Productor completado!!\n");
 }
