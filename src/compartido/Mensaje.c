@@ -32,6 +32,10 @@ void colorVerde() {
     printf("\033[1;32m");
 }
 
+void colorRojo() {
+    printf("\033[1;31m");
+}
+
 void resetColor() {
     printf("\033[0m");
 }

@@ -21,6 +21,7 @@ void imprimirMensaje(mensaje_t mensaje);
 void colorAzul();
 void colorAmarillo();
 void colorVerde();
+void colorRojo();
 void resetColor();
 
 #endif
