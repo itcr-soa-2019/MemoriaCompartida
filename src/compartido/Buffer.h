@@ -5,6 +5,7 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <math.h>
 #include "Mensaje.h"
 
 #ifndef Buffer_h
@@ -37,5 +38,6 @@ int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo);
 void desactivarBuffer(buffer_t* buffer);
 int getCantProductores(buffer_t* buffer);
 int getCantConsumidores(buffer_t* buffer);
+double getTiempoEspera (int segundos);
 
 #endif
