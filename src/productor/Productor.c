@@ -33,20 +33,23 @@ int main (int argc, char *argv[])
         tiempoBloqueado += diff;
 
         if(!buffer->activo){
+            sleep(2);
             break;
         }
-        mensaje_t mensaje = crearMensaje(producerId);
 
         // escribir mensaje
+        mensaje_t mensaje = crearMensaje(producerId);
         tiempoBloqueado += escribirBuffer(buffer, mensaje, semaforoOcupado);
         contadorLocalMsjs++;
 
         // calcular siguiente espera
         tiempoEspera = getTiempoEspera(mediaSegundos);
         tiempoEsperaTotal += tiempoEspera;
-        
+
         sem_post(semaforoLleno);
+        printf("\033[1;33m");        
         printf("Esperando %lf segundos...\n", tiempoEspera);
+        printf("\033[0m");
         sleep((int)round(tiempoEspera));
     }
 
@@ -60,10 +63,15 @@ int main (int argc, char *argv[])
 }
 
 void reporteProductor(int producerId, int contadorLocalMsjs, double tiempoEsperaTotal, double tiempoBloqueado) {
+    sleep(1);
     printf("\n\n***********************************\n");
+    colorAzul();
     printf("Resumen del Productor #%d\n", producerId);
+    resetColor();
     printf("Mensajes Producidos: %d\n", contadorLocalMsjs);
     printf("Tiempo Espera Total: %lf\n", tiempoEsperaTotal);
-    printf("Tiempo Bloqueado: %lf\n", tiempoBloqueado/CLOCKS_PER_SEC);
-    printf("Productor completado!!\n");
+    printf("Tiempo Bloqueado: %lf\n", tiempoBloqueado/CLOCKS_PER_SEC);    
+    colorVerde();
+    printf("Productor completado!!\n\n");
+    resetColor();
 }

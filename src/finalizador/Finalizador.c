@@ -111,11 +111,15 @@ void eliminarBuffer(buffer_t *buffer, sem_t *semaforoOcupado, sem_t *semaforoLle
  */
 void reporteFinalizador() {
     printf("\n*****************************************");
+    colorAzul();
     printf("\nResumen del Finalizador");
+    resetColor();
     printf("\n-----------------------------------------\n");
-    printf("\tProductores finalizados: %d\n", productores);        
-    printf("\tConsumidores finalizados: %d\n", consumidores);
-    printf("\tMensajes Producidos: %d\n", mensajesProducidos);
-    printf("\tMensajes Consumidos: %d\n\n", mensajesConsumidos);
+    colorVerde();
+    printf("Productores finalizados: %d\n", productores);        
+    printf("Consumidores finalizados: %d\n", consumidores);
+    printf("Mensajes Producidos: %d\n", mensajesProducidos);
+    printf("Mensajes Consumidos: %d\n\n", mensajesConsumidos);
+    resetColor();
     productores = 0, consumidores = 0, mensajesProducidos = 0, mensajesConsumidos = 0;
 }

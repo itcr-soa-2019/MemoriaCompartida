@@ -19,3 +19,19 @@ void imprimirMensaje(mensaje_t mensaje) {
     printf("Timestamp: %s", ctime (&mensaje.timestampCreacion));
     printf("-----------------------------------\n\n");
 }
+
+void colorAzul() {
+    printf("\033[1;34m");
+}
+
+void colorAmarillo() {
+    printf("\033[1;33m");
+}
+
+void colorVerde() {
+    printf("\033[1;32m");
+}
+
+void resetColor() {
+    printf("\033[0m");
+}

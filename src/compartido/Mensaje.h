@@ -18,4 +18,9 @@ typedef struct mensaje_t
 mensaje_t crearMensaje(int pid);
 void imprimirMensaje(mensaje_t mensaje);
 
+void colorAzul();
+void colorAmarillo();
+void colorVerde();
+void resetColor();
+
 #endif

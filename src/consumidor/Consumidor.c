@@ -33,6 +33,7 @@ int main (int argc, char *argv[])
         tiempoBloqueado += diff;
 
         if(!buffer->activo){
+            sleep(2);
             break;
         }
 
@@ -40,11 +41,11 @@ int main (int argc, char *argv[])
         if (mensaje.llave != -1) {
             mensajesConsumidos++;
         }
-        if (idConsumidor % 5 == mensaje.llave) {
+        /*if (idConsumidor % 5 == mensaje.llave) {
             printf("Se cumple condición de finalización\n");
             sem_post(semaforoVacio); // unlock
             break;
-        }
+        }*/
 
         // calcular siguiente espera
         tiempoBloqueado += mensaje.tiempoBloqueado;
@@ -52,7 +53,9 @@ int main (int argc, char *argv[])
         tiempoEsperaTotal += tiempoEspera;
         
         sem_post(semaforoVacio); // unlock
+        printf("\033[1;33m");        
         printf("Esperando %lf segundos...\n", tiempoEspera);
+        printf("\033[0m");
         sleep((int)round(tiempoEspera));
     }
 
@@ -69,10 +72,15 @@ int main (int argc, char *argv[])
  * Imprime el reporte del consumidor
  */
 void reporteConsumidor(int idConsumidor, int mensajesConsumidos, double tiempoEsperaTotal, double tiempoBloqueado) {
+    sleep(1);
     printf("\n\n***********************************\n");
+    colorAzul();
     printf("Resumen del Consumidor #%d\n", idConsumidor);
+    resetColor();
     printf("Mensajes Consumidos: %d\n", mensajesConsumidos);
     printf("Tiempo Espera Total: %lf\n", tiempoEsperaTotal);
-    printf("Tiempo Bloqueado: %lf\n", tiempoBloqueado/CLOCKS_PER_SEC);
-    printf("Consumidor completado!!\n");
+    printf("Tiempo Bloqueado: %lf\n", tiempoBloqueado/CLOCKS_PER_SEC);    
+    colorVerde();
+    printf("Consumidor completado!!\n\n");
+    resetColor();
 }
