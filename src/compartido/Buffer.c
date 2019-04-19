@@ -12,6 +12,7 @@ buffer_t* inicializarBuffer(buffer_t* buffer, char* nombre, size_t tamano, int m
     buffer->contMensajesLeidos = 0;
     buffer->contProductores = 0;
     buffer->contConsumidores = 0;
+	buffer->indiceLecturaActual = 0;
 
     // inicializar array de mensajes aqui
 	for(int i = 0; i < maxMensajes; i++){
@@ -91,7 +92,7 @@ mensaje_t getMensaje(buffer_t* buffer, sem_t* semaforo){
 	diferencia = clock() - inicio;
 	mensaje.llave = -1;
 	mensaje.tiempoBloqueado = diferencia;	
-	int indexRead = buffer->contMensajesLeidos % buffer->maxMensajes;	
+	int indexRead = buffer->contMensajesLeidos % buffer->maxMensajes;
 	if(buffer->contMensajesLeidos < buffer->contTotalMensajes){
 		mensaje = buffer->mensajes[indexRead];
 		mensaje.tiempoBloqueado = diferencia;
@@ -104,6 +105,8 @@ mensaje_t getMensaje(buffer_t* buffer, sem_t* semaforo){
 	
     if(mensaje.llave != -1) {
 		imprimirMensaje(mensaje);	
+	} else {
+		printf("No se pudo leer el mensaje\n");
 	}
     return mensaje;
 }

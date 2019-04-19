@@ -21,6 +21,7 @@ typedef struct buffer_t
    int contMensajesLeidos;
    int contProductores;
    int contConsumidores;
+   int indiceLecturaActual;
    //int __frontIndex;
    //int __backIndex;
    mensaje_t mensajes[];
