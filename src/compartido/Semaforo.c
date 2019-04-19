@@ -1,6 +1,3 @@
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "Semaforo.h"
 
 sem_t* crearSemaforo(char* nombre, int valor) {

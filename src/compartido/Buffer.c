@@ -50,6 +50,16 @@ buffer_t* getBuffer(char* nombre) {
 	}
     return buffer;
 }
+
+/**
+ * Carga el buffer con mmap y realiza el cast
+ */
+buffer_t* cargarBuffer(int archivo, size_t mapSize) {
+	buffer_t* buffer = (buffer_t*) mmap(NULL, mapSize, 
+						PROT_EXEC | PROT_READ | PROT_WRITE, MAP_SHARED, archivo, 0);	
+	return buffer;
+}
+
 /**
  * Escribe un mensaje en el buffer.
  */
@@ -77,6 +87,18 @@ double escribirBuffer(buffer_t* buffer, mensaje_t mensaje, sem_t* semaforo) {
         imprimirMensaje(mensaje);
     }
     return diff;
+}
+
+/**
+ * Sincroniza el buffer
+ */ 
+void detenerConsumidor(buffer_t* buffer, int idConsumidor){
+	msync(buffer, buffer->tamano, MS_SYNC);
+	buffer->mensajes[buffer->indiceLecturaFinal].llave = idConsumidor % 5;
+	buffer->mensajes[buffer->indiceLecturaFinal].mensajeFinalizacion = 1;
+	buffer->indiceLecturaFinal++;
+	buffer->indiceLecturaActual--;
+	msync(buffer, buffer->tamano, MS_SYNC);
 }
 
 /**
@@ -167,12 +189,12 @@ int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo){
  * setea el buffer como inactivo = 0 para iniciar con la 
  * cancelacion de productores y consumidores
  */
-void desactivarBuffer(buffer_t* buffer){
-	printf("\nListo0\n");
+void desactivarBuffer(buffer_t* buffer, char* nombre){
+	printf("\nDesactivando el buffer '%s'...\n", nombre);
 	buffer->activo = 0;
-	printf("\nListo1\n");
-	//msync(buffer, buffer->tamano, MS_SYNC);
-	//printf("\nListo2\n");
+	msync(buffer, buffer->tamano, MS_SYNC);
+    sleep(1);
+	printf("Buffer '%s' desactivado\n\n", nombre);
 }
 
 /**

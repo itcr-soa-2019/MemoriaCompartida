@@ -12,6 +12,7 @@ typedef struct mensaje_t
     int pid;
     int leido;
     double tiempoBloqueado;
+    int mensajeFinalizacion;
 } mensaje_t;
 
 mensaje_t crearMensaje(int pid);

@@ -4,7 +4,7 @@
 int main (int argc, char *argv[]) 
 {
     // validar parámetros
-    validarParamsConsumidor(argc);
+    validarParamsConsumidor(argc, argv);
 
     char* nombreBuffer = argv[1];
     int mediaSegundos = strtod(argv[2], NULL);
@@ -34,14 +34,14 @@ int main (int argc, char *argv[])
         tiempoBloqueado += diff;
 
         mensaje_t mensaje = getMensaje(buffer, semaforoOcupado);
+        if (mensaje.llave != -1) {
+            mensajesConsumidos++;
+        }
         if (idConsumidor % 5 == mensaje.llave) {
             printf("Se cumple condición de finalización\n");
             sem_post(semaforoVacio); // unlock
             break;
         }        
-        if (mensaje.llave != -1) {
-            mensajesConsumidos++;
-        }
 
         tiempoBloqueado += mensaje.tiempoBloqueado;
         tiempoEspera = getTiempoEspera(mediaSegundos);
@@ -61,17 +61,13 @@ int main (int argc, char *argv[])
     return 0;
 }
 
-void validarParamsConsumidor(int contArgs) {
-    if (contArgs != 3) {
-        printf("Error en los parámetros: Ingrese el nombre del buffer y la media de espera en segundos.\n");
-        exit(1);
-    }
-}
-
+/**
+ * Imprime el reporte del consumidor
+ */
 void reporteConsumidor(int idConsumidor, int mensajesConsumidos, double tiempoEsperaTotal, double tiempoBloqueado) {
-    printf("\n***********************\n");
+    printf("\n\n***********************************\n");
     printf("Resumen del Consumidor #%d\n", idConsumidor);
-    printf("Mensajes Consumidors: %d\n", mensajesConsumidos);
+    printf("Mensajes Consumidos: %d\n", mensajesConsumidos);
     printf("Tiempo Espera Total: %lf\n", tiempoEsperaTotal);
     printf("Tiempo Bloqueado: %lf\n", tiempoBloqueado/CLOCKS_PER_SEC);
     printf("Consumidor completado!!\n");

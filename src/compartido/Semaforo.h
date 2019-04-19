@@ -1,3 +1,6 @@
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <semaphore.h>
 
 #ifndef Semaforo_h

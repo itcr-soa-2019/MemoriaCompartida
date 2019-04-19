@@ -1,14 +1,9 @@
 #include "Productor.h"
 
-/**
- * 
- * Todavia ocupa arreglos
- * 
- * */
 int main (int argc, char *argv[]) 
 {
     // leer y validar parámetros
-    validarParamsProduct(argc);
+    validarParamsProductor(argc, argv);
     char* nombreBuffer = argv[1];
     int mediaSegundos = strtod(argv[2], NULL);
     int contadorLocalMsjs = 0;
@@ -63,15 +58,8 @@ int main (int argc, char *argv[])
     return 0;
 }
 
-void validarParamsProduct(int contArgs) {
-    if (contArgs != 3) {
-        printf("Error en los parámetros: Ingrese el nombre del buffer y la media de espera en segundos.\n");
-        exit(1);
-    }
-}
-
 void reporteProductor(int producerId, int contadorLocalMsjs, double tiempoEsperaTotal, double tiempoBloqueado) {
-    printf("\n***********************\n");
+    printf("\n\n***********************************\n");
     printf("Resumen del Productor #%d\n", producerId);
     printf("Mensajes Producidos: %d\n", contadorLocalMsjs);
     printf("Tiempo Espera Total: %lf\n", tiempoEsperaTotal);

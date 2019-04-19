@@ -4,4 +4,4 @@ LIBS = -lm -pthread
 CHECK=-Wall -Wextra
 
 all: Buffer.c
-	$(CC) -shared -fpic Buffer.c Mensaje.c Semaforo.c -o lib_compartida
+	$(CC) -shared -fpic Buffer.c Mensaje.c Semaforo.c Validador.c -o lib_compartida

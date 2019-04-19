@@ -51,14 +51,3 @@ int main (int argc, char *argv[]) {
     printf("Creador completado!!\n");
     return 0;
 }
-
-void validarParamsCreador(int contArgs, char *args[]) {
-    if (contArgs != 3) {
-        printf("Error en los parámetros: Ingrese el nombre del buffer y cantidad máxima de mensajes.\n");
-        exit(1);
-    }
-    if (atoi(args[2]) <= 0) {
-        printf("Error en los parámetros: La cantidad máxima de mensajes debe ser numérica y mayor a 0.\n");
-        exit(1);
-    }
-}

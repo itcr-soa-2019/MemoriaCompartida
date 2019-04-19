@@ -22,21 +22,23 @@ typedef struct buffer_t
    int contProductores;
    int contConsumidores;
    int indiceLecturaActual;
-   //int __frontIndex;
-   //int __backIndex;
+   int indiceLecturaInicial;
+   int indiceLecturaFinal;
    mensaje_t mensajes[];
 } buffer_t;
 
 
 buffer_t* inicializarBuffer(buffer_t* buffer, char* nombre, size_t tamano, int maxMensajes);
 buffer_t* getBuffer(char* nombre);
+buffer_t* cargarBuffer(int archivo, size_t mapSize);
 double escribirBuffer(buffer_t* buffer, mensaje_t mensaje, sem_t* semaforo);
+void detenerConsumidor(buffer_t* buffer, int idConsumidor);
 mensaje_t getMensaje(buffer_t* buffer, sem_t* semaforo);
 int incrementarProductores(buffer_t* buffer, sem_t* semaforo);
 int decrementarProductores(buffer_t* buffer, sem_t* semaforo);
 int incrementarConsumidores(buffer_t* buffer, sem_t* semaforo);
 int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo);
-void desactivarBuffer(buffer_t* buffer);
+void desactivarBuffer(buffer_t* buffer, char* nombre);
 int getCantProductores(buffer_t* buffer);
 int getCantConsumidores(buffer_t* buffer);
 double getTiempoEspera (int segundos);
