@@ -9,8 +9,8 @@
 
 void validarParamsFinalizador(int contArgs);
 void reporteFinalizador(buffer_t *buffer);
-void desactivarBuffer();
-void cancelarProductores();
+void eliminarBuffer(buffer_t *buffer, sem_t *semaforoOcupado, sem_t *semaforoLleno, sem_t *semaforoVacio, int archivo, size_t map_size);
+void cancelarProductores(buffer_t* buffer, sem_t* semaforoOcupado, sem_t* semaforoLleno, sem_t* semaforoVacio, int tamano);
 void cancelarConsumidores();
 
 #endif

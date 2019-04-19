@@ -35,7 +35,7 @@ buffer_t* getBuffer(char* nombre) {
 	
 	size_t tamanoMapping = (size_t) (offset + 1);
 	buffer_t* buffer = (buffer_t*) mmap(NULL, tamanoMapping, PROT_EXEC | PROT_READ | PROT_WRITE, 
-    MAP_SHARED, descriptorArchivo, 0);
+    					MAP_SHARED, descriptorArchivo, 0);
 	if (buffer == MAP_FAILED) {
 		close(descriptorArchivo);
 		printf("3Error obteniendo buffer compartido\n");
@@ -147,4 +147,31 @@ int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo){
 	consumidores = buffer->contConsumidores;
 	sem_post(semaforo);
 	return consumidores;
+}
+
+/**
+ * setea el buffer como inactivo = 0 para iniciar con la 
+ * cancelacion de productores y consumidores
+ */
+void desactivarBuffer(buffer_t* buffer){
+	buffer->activo = 0;
+	msync(buffer, buffer->tamano, MS_SYNC);
+}
+
+/**
+ * obtiene la cantidad de productores escribiendo mensajes
+ * en el buffer compartido 
+ */
+int getCantProductores(buffer_t* buffer){
+	msync(buffer, buffer->tamano, MS_SYNC);
+	return buffer->contProductores;
+}
+
+/**
+ * obtiene la cantidad de consumidores consumiendo mensajes
+ * en el buffer compartido 
+ */
+int getCantConsumidores(buffer_t* buffer){
+	msync(buffer, buffer->tamano, MS_SYNC);
+	return buffer->contConsumidores;
 }
