@@ -53,9 +53,9 @@ int main (int argc, char *argv[])
         tiempoEsperaTotal += tiempoEspera;
         
         sem_post(semaforoVacio); // unlock
-        printf("\033[1;33m");        
+        colorAmarillo();        
         printf("Esperando %lf segundos...\n", tiempoEspera);
-        printf("\033[0m");
+        resetColor();
         sleep((int)round(tiempoEspera));
     }
 
