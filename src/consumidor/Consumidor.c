@@ -41,11 +41,11 @@ int main (int argc, char *argv[])
         if (mensaje.llave != -1) {
             mensajesConsumidos++;
         }
-        /*if (idConsumidor % 5 == mensaje.llave) {
+        if (idConsumidor % 5 == mensaje.llave) {
             printf("Se cumple condición de finalización\n");
             sem_post(semaforoVacio); // unlock
             break;
-        }*/
+        }
 
         // calcular siguiente espera
         tiempoBloqueado += mensaje.tiempoBloqueado;
