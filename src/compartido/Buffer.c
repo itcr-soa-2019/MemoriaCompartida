@@ -12,7 +12,10 @@ buffer_t* inicializarBuffer(buffer_t* buffer, char* nombre, size_t tamano, int m
     buffer->contMensajesLeidos = 0;
     buffer->contProductores = 0;
     buffer->contConsumidores = 0;
+	buffer->contConsumidoresExp = 0;
 	buffer->indiceLecturaActual = 0;
+   	buffer->esperaProductores = 0;
+   	buffer->esperaConsumidores = 0;
 
     // inicializar array de mensajes aqui
 	for(int i = 0; i < maxMensajes; i++){
@@ -186,16 +189,22 @@ int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo){
 	return consumidores;
 }
 
+int incrementarConsumidoresExp(buffer_t* buffer, sem_t* semaforo){
+	int consumidores;
+	sem_wait(semaforo);
+	buffer->contConsumidoresExp++;
+	consumidores = buffer->contConsumidoresExp;
+	sem_post(semaforo);
+	return consumidores;
+}
+
 /**
  * setea el buffer como inactivo = 0 para iniciar con la 
  * cancelacion de productores y consumidores
  */
-void desactivarBuffer(buffer_t* buffer, char* nombre){
-	printf("\nDesactivando el buffer '%s'...\n", nombre);
+void desactivarBuffer(buffer_t* buffer, char* nombre){	
 	buffer->activo = 0;
-	msync(buffer, buffer->tamano, MS_SYNC);
-    sleep(1);
-	printf("Buffer '%s' desactivado\n", nombre);
+	msync(buffer, buffer->tamano, MS_SYNC);    
 }
 
 /**
@@ -226,4 +235,24 @@ double getTiempoEspera (int segundos) {
         val = rand();
     double decimal = (double) val / RAND_MAX;
     return log (1 - decimal) * (-segundos);
+}
+
+/**
+ * Incrementa el tiempo de espera acumulado de los 
+ * productores para posterior uso en el reporte del finalizador
+ */
+double aumentarEsperaProductores(buffer_t* buffer, sem_t* semaforo, double segundos){
+	sem_wait(semaforo);
+	buffer->esperaProductores += segundos;
+    sem_post(semaforo);	
+}
+
+/**
+ * Incrementa el tiempo de espera acumulado de los 
+ * consumidores para posterior uso en el reporte del finalizador
+ */ 
+double aumentarEsperaConsumidores(buffer_t* buffer, sem_t* semaforo, double segundos){
+	sem_wait(semaforo);
+	buffer->esperaConsumidores += segundos;
+    sem_post(semaforo);	
 }

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <semaphore.h>
+#include "Mensaje.h"
 
 #ifndef Semaforo_h
 #define Semaforo_h

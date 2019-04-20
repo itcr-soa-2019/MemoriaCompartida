@@ -21,6 +21,9 @@ typedef struct buffer_t
    int contMensajesLeidos;
    int contProductores;
    int contConsumidores;
+   int contConsumidoresExp;
+   double esperaProductores;
+   double esperaConsumidores;
    int indiceLecturaActual;
    int indiceLecturaInicial;
    int indiceLecturaFinal;
@@ -38,9 +41,12 @@ int incrementarProductores(buffer_t* buffer, sem_t* semaforo);
 int decrementarProductores(buffer_t* buffer, sem_t* semaforo);
 int incrementarConsumidores(buffer_t* buffer, sem_t* semaforo);
 int decrementarConsumidores(buffer_t* buffer, sem_t* semaforo);
+int incrementarConsumidoresExp(buffer_t* buffer, sem_t* semaforo);
 void desactivarBuffer(buffer_t* buffer, char* nombre);
 int getCantProductores(buffer_t* buffer);
 int getCantConsumidores(buffer_t* buffer);
 double getTiempoEspera (int segundos);
+double aumentarEsperaProductores(buffer_t* buffer, sem_t* semaforo, double segundos);
+double aumentarEsperaConsumidores(buffer_t* buffer, sem_t* semaforo, double segundos);
 
 #endif

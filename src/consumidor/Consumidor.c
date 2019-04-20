@@ -42,7 +42,10 @@ int main (int argc, char *argv[])
             mensajesConsumidos++;
         }
         if (idConsumidor % 5 == mensaje.llave) {
+            colorAmarillo();
             printf("Se cumple condición de finalización\n");
+            resetColor();
+            incrementarConsumidoresExp(buffer, semaforoOcupado);
             sem_post(semaforoVacio); // unlock
             break;
         }
@@ -51,9 +54,10 @@ int main (int argc, char *argv[])
         tiempoBloqueado += mensaje.tiempoBloqueado;
         tiempoEspera = getTiempoEspera(mediaSegundos);
         tiempoEsperaTotal += tiempoEspera;
+        aumentarEsperaConsumidores(buffer, semaforoOcupado, tiempoEspera);
         
         sem_post(semaforoVacio); // unlock
-        colorAmarillo();        
+        colorAmarillo();
         printf("Esperando %lf segundos...\n", tiempoEspera);
         resetColor();
         sleep((int)round(tiempoEspera));

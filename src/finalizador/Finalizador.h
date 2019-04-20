@@ -8,9 +8,11 @@
 #ifndef Finalizador_h
 #define Finalizador_h
 
-void cancelarProductores(buffer_t* buffer, sem_t* semaforoOcupado, sem_t* semaforoLleno, sem_t* semaforoVacio, int tamano);
+void desactivarBufferCompartido(buffer_t* buffer, char* nombre);
+void acumularDatosReporte(buffer_t* buffer);
+void cancelarProductores(buffer_t* buffer, sem_t* semaforoOcupado, sem_t* semaforoLleno, sem_t* semaforoVacio);
 void cancelarConsumidores(buffer_t *buffer, sem_t *semaforoOcupado);
-void eliminarBuffer(buffer_t *buffer, sem_t *semaforoOcupado, sem_t *semaforoLleno, sem_t *semaforoVacio, int archivo, size_t map_size);
+void liberarBuffer(buffer_t *buffer, sem_t *semaforoOcupado, sem_t *semaforoLleno, sem_t *semaforoVacio, int archivo, size_t map_size);
 void reporteFinalizador();
 
 #endif

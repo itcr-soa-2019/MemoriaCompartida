@@ -45,6 +45,7 @@ int main (int argc, char *argv[])
         // calcular siguiente espera
         tiempoEspera = getTiempoEspera(mediaSegundos);
         tiempoEsperaTotal += tiempoEspera;
+        aumentarEsperaProductores(buffer, semaforoOcupado, tiempoEspera);
 
         sem_post(semaforoLleno);
         colorAmarillo();        
